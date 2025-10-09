@@ -1,0 +1,4 @@
+models/**/*.h5 filter=lfs diff=lfs merge=lfs -text
+results/**/*.png filter=lfs diff=lfs merge=lfs -text
+results/**/*.html filter=lfs diff=lfs merge=lfs -text
+results/**/*.md filter=lfs diff=lfs merge=lfs -text

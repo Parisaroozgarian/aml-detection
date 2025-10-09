@@ -1,12 +1,19 @@
+# Data files only (too large)
 data/
-models/
+
+# Python virtual environment
 venv/
 env/
 ENV/
+
+# Python cache
 __pycache__/
 *.py[cod]
 *$py.class
-results/
+
+# macOS
 .DS_Store
+
+# IDE
 .vscode/
 .idea/
