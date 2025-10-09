@@ -40,7 +40,6 @@ aml-detection/
 - **Size**: ~6 GB
 - **Format**: Blood cell microscopy images
 - **Classes**: 4 classes (Malignant early Pre-B, Pre-B, Pro-B, and Benign)
-- **Creator**: Mohammad Amir Eshraghi
 
 ### Setup the Dataset:
 
