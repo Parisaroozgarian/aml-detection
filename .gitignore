@@ -1,0 +1,12 @@
+data/
+models/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+results/
+.DS_Store
+.vscode/
+.idea/
