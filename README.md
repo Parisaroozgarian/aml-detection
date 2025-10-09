@@ -31,18 +31,35 @@ aml-detection/
 
 ## 📊 Dataset
 
-Due to GitHub file size limits, the dataset is hosted externally.
+**Note**: This project uses the Blood Cell Cancer [ALL] - 4 Class dataset from Kaggle.
 
 ### Download Instructions:
-1. **Google Drive**: [Download Dataset](YOUR_GOOGLE_DRIVE_LINK_HERE)
-2. **Alternative**: [Kaggle Dataset](YOUR_KAGGLE_LINK_HERE)
-3. **Size**: ~6 GB
-4. **Format**: Blood cell microscopy images
 
-### After downloading:
+📥 **Kaggle Dataset**: [Blood Cell Cancer [ALL] - 4 Class](https://www.kaggle.com/datasets/mohammadamireshraghi/blood-cell-cancer-all-4class)
+
+- **Size**: ~6 GB
+- **Format**: Blood cell microscopy images
+- **Classes**: 4 classes (Malignant early Pre-B, Pre-B, Pro-B, and Benign)
+- **Creator**: Mohammad Amir Eshraghi
+
+### Setup the Dataset:
+
+**Method 1: Manual Download**
+1. Visit the [Kaggle dataset page](https://www.kaggle.com/datasets/mohammadamireshraghi/blood-cell-cancer-all-4class)
+2. Click "Download" (requires free Kaggle account)
+3. Extract the downloaded zip file
+4. Move the extracted folder to the `data/` directory
+
+**Method 2: Using Kaggle API**
 ```bash
-# Extract the dataset to the data/ folder
-unzip dataset.zip -d data/
+# Install Kaggle API
+pip install kaggle
+
+# Download dataset (make sure your Kaggle API credentials are configured)
+kaggle datasets download -d mohammadamireshraghi/blood-cell-cancer-all-4class
+
+# Extract to data folder
+unzip blood-cell-cancer-all-4class.zip -d data/
 ```
 
 For more details, see `data/README.md`
@@ -100,33 +117,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License.
 
-## 👤 Author
-
-**Parisa Roozgarian**
-- GitHub: [@Parisaroozgarian](https://github.com/Parisaroozgarian)
 
 ## 🙏 Acknowledgments
 
-- Dataset source: [Add source here]
+- Dataset source: Blood Cells Cancer (ALL) dataset. (2021, October 30). Kaggle. https://www.kaggle.com/datasets/mohammadamireshraghi/blood-cell-cancer-all-4class
 - Inspired by medical AI research in leukemia detection
 
----
+## 📚 Citation
 
-## 📥 Setting Up the Dataset
+If you use this dataset in your research, please cite:
 
-After downloading the dataset from the links above:
-
-1. Upload your data folder to **Google Drive**:
-   ```bash
-   # Zip your data folder first
-   zip -r aml-data.zip data/
-   # Upload to Google Drive and get shareable link
-   ```
-
-2. Or upload to **Kaggle** (recommended for ML projects):
-   - Go to [kaggle.com](https://kaggle.com) → Create → New Dataset
-   - Upload your data and get the dataset link
-
-3. Update the README with your actual links:
-   - Replace `YOUR_GOOGLE_DRIVE_LINK_HERE` with your Google Drive link
-   - Replace `YOUR_KAGGLE_LINK_HERE` with your Kaggle dataset link
+```
+Blood Cells Cancer (ALL) dataset. (2021, October 30). Kaggle. https://www.kaggle.com/datasets/mohammadamireshraghi/blood-cell-cancer-all-4class
+```
