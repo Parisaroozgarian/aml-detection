@@ -1,0 +1,10 @@
+                         precision    recall  f1-score   support
+
+                 Benign     0.8875    0.9221    0.9045        77
+[Malignant] early Pre-B     0.9272    0.9524    0.9396       147
+      [Malignant] Pre-B     0.9927    0.9510    0.9714       143
+      [Malignant] Pro-B     0.9912    0.9825    0.9868       114
+
+               accuracy                         0.9543       481
+              macro avg     0.9496    0.9520    0.9506       481
+           weighted avg     0.9555    0.9543    0.9546       481

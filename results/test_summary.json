@@ -1,0 +1,9 @@
+{
+  "test_accuracy": 0.9542619585990906,
+  "test_loss": 0.13645850121974945,
+  "macro_f1": 0.9505671566400227,
+  "num_test_images": 481,
+  "split_type": "image-level stratified",
+  "patient_level_split": false,
+  "exact_duplicates_removed_before_split": true
+}
