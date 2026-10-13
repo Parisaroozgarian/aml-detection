@@ -41,7 +41,7 @@ The updated research pipeline adds:
 
 The current research evaluation uses four dataset classes:
 
-- **Benign**
+- **Benign (hematogones)**
 - **Malignant Early Pre-B**
 - **Malignant Pre-B**
 - **Malignant Pro-B**
@@ -57,6 +57,16 @@ This project uses the **Blood Cell Cancer [ALL] - 4 Class** dataset available on
 https://www.kaggle.com/datasets/mohammadamireshraghi/blood-cell-cancer-all-4class
 
 The dataset contains microscopy images organized into four classes.
+
+### Dataset provenance
+
+The class definitions used in this project originate from the Acute Lymphoblastic Leukemia (ALL) image dataset developed from peripheral blood smear images prepared at Taleqani Hospital in Tehran, Iran. The original dataset contains 3,256 images from 89 individuals investigated for ALL.
+
+The benign class consists of **hematogones**, while the malignant group includes **Early Pre-B, Pre-B, and Pro-B ALL**. Cell type and subtype labels in the source dataset were established by a specialist using flow cytometry.
+
+Original dataset citation:
+
+Aria, M., Ghaderzadeh, M., Bashash, D., Abolghasemi, H., Asadi, F., & Hosseini, A. (2021). *Acute Lymphoblastic Leukemia (ALL) image dataset*. Kaggle. https://doi.org/10.34740/KAGGLE/DSV/2175623
 
 ### Dataset after duplicate removal
 
@@ -188,8 +198,6 @@ Evaluation was performed on a frozen test set of **481 images**.
 | Pre-B | 0.9927 | 0.9510 | 0.9714 | 143 |
 | Pro-B | 0.9912 | 0.9825 | 0.9868 | 114 |
 
-The most common error pattern occurred between **Benign and Early Pre-B** images.
-
 The full classification report is available in:
 
 ```text
@@ -205,11 +213,9 @@ The corrected confusion matrix for the 481-image test set is shown below.
 
 ![Confusion Matrix](results/figures/confusion_matrix.png)
 
-The largest confusion pattern was:
+The dominant error pattern occurred between **Benign and Early Pre-B** images. These two directions accounted for **13 of the 22 total test-set errors (59.1%)**: 6 Benign images were classified as Early Pre-B, and 7 Early Pre-B images were classified as Benign.
 
-```text
-Benign ↔ Early Pre-B
-```
+In this dataset, the benign class represents **hematogones**, which are benign immature B-cell precursors that can resemble lymphoblasts. This makes the Benign–Early Pre-B boundary particularly relevant when interpreting the model's errors.
 
 Pro-B showed the strongest class-wise performance in this test set.
 
@@ -221,14 +227,14 @@ The project evaluates whether prediction confidence can be used to identify case
 
 Instead of forcing the model to classify every case automatically, the least-confident predictions can be deferred.
 
-| Referral rate | Referred cases | Retained cases | Accuracy on retained cases |
-|---|---:|---:|---:|
-| 0% | 0 | 481 | 95.43% |
-| 5% | 24 | 457 | 97.16% |
-| 10% | 48 | 433 | 98.61% |
-| 20% | 96 | 385 | 99.74% |
+| Referral rate | Referred cases | Errors captured | Retained cases | Accuracy on retained cases |
+|---|---:|---:|---:|---:|
+| 0% | 0 | 0 | 481 | 95.43% |
+| 5% | 24 | 9 | 457 | 97.16% |
+| 10% | 48 | 16 | 433 | 98.61% |
+| 20% | 96 | 21 | 385 | 99.74% |
 
-At a **10% referral rate**, retained-case accuracy increased from **95.43% to 98.61%**.
+At the **10% referral threshold**, the 48 least-confident test images contained **16 of the model's 22 total errors (72.7%)**. Only 6 errors remained among the 433 retained images, corresponding to a retained-case accuracy of **98.61%**.
 
 At a **20% referral rate**, retained-case accuracy reached **99.74%**.
 
@@ -291,13 +297,15 @@ Grad-CAM should be interpreted as a qualitative explanation method and does **no
 
 ```text
 b-all-blood-smear-classification/
-├── models/
-│   ├── phase1/
-│   │   ├── basic_cnn.h5
-│   │   └── best_model.h5
-│   └── phase2/
-│       ├── best_efficientnetb0.h5
-│       └── efficientnetb0_final.h5
+├── archive/
+│   ├── README.md
+│   ├── old_models/
+│   │   ├── phase1/
+│   │   └── phase2/
+│   ├── old_results/
+│   │   ├── figures/
+│   │   └── web/
+│   └── old_scripts/
 │
 ├── results/
 │   ├── classification_report.json
@@ -306,7 +314,6 @@ b-all-blood-smear-classification/
 │   ├── split_manifest.csv
 │   ├── test_predictions.csv
 │   ├── test_summary.json
-│   │
 │   └── figures/
 │       ├── confusion_matrix.png
 │       ├── gradcam_panel_4class.png
@@ -316,10 +323,9 @@ b-all-blood-smear-classification/
 │       └── training_loss.png
 │
 ├── scripts/
-│   ├── phase1_basic_model.py
-│   ├── phase2_transfer_learning.py
 │   └── phase2_transfer_learning_clean.py
 │
+├── .gitattributes
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -455,12 +461,13 @@ Any clinical application would require substantially more validation, including 
 
 This study has several important limitations:
 
-1. The evaluation is image-level rather than patient-level because verified patient identifiers were not available in the dataset copy used for this study.
+1. The original source dataset represents images from 89 individuals, but verified patient identifiers were not available in the dataset copy used for this study. Patient-level separation therefore could not be enforced, and images from the same individual may occur across training, validation, and test splits.
 2. The data come from a limited source and have not been externally validated across multiple hospitals, microscopes, or imaging systems.
 3. The model has not been prospectively evaluated in a clinical workflow.
 4. Grad-CAM provides qualitative visual explanations but does not establish biological causality.
 5. Confidence-based referral results describe accuracy on retained cases and do not represent complete clinical-workflow performance.
 6. The system has not been independently evaluated by hematologists or pathologists.
+7. Exact duplicate detection used SHA-256 file hashes. This removes byte-identical copies but does not guarantee detection of near-duplicates produced by resizing, recompression, cropping, or other image transformations.
 
 ---
 
@@ -480,16 +487,25 @@ Future work will focus on:
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
 ## Dataset Acknowledgment
 
-Dataset used in this project:
+Original dataset:
 
-**Blood Cells Cancer (ALL) dataset**
+Aria, M., Ghaderzadeh, M., Bashash, D., Abolghasemi, H., Asadi, F., & Hosseini, A. (2021).  
+**Acute Lymphoblastic Leukemia (ALL) image dataset.** Kaggle.  
+https://doi.org/10.34740/KAGGLE/DSV/2175623
 
-Kaggle:
+Associated publication:
+
+Ghaderzadeh, M., Aria, M., Hosseini, A., Asadi, F., Bashash, D., & Abolghasemi, H. (2022).  
+**A fast and efficient CNN model for B-ALL diagnosis and its subtypes classification using peripheral blood smear images.**  
+*International Journal of Intelligent Systems, 37*, 5113–5133.  
+https://doi.org/10.1002/int.22753
+
+Four-class Kaggle distribution used in this project:
 
 https://www.kaggle.com/datasets/mohammadamireshraghi/blood-cell-cancer-all-4class
