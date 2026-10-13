@@ -290,7 +290,7 @@ Grad-CAM should be interpreted as a qualitative explanation method and does **no
 ## Project Structure
 
 ```text
-aml-detection/
+b-all-blood-smear-classification/
 ├── models/
 │   ├── phase1/
 │   │   ├── basic_cnn.h5
@@ -355,8 +355,8 @@ The corresponding outputs are stored in the `results/` directory.
 Clone the repository:
 
 ```bash
-git clone https://github.com/Parisaroozgarian/aml-detection.git
-cd aml-detection
+git clone https://github.com/Parisaroozgarian/b-all-blood-smear-classification.git
+cd b-all-blood-smear-classification
 ```
 
 Create a virtual environment:
